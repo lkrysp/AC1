@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Inscrição</title>
+</head>
+<body>
+    <h1>Formulário de Inscrição</h1>
+
+    <form id="registration-form">
+        <!-- Dados do aluno -->
+        <h2>Dados do Aluno</h2>
+        <label>
+            Nome*: <input type="text" id="studentName" required>
+        </label><br>
+        <label>
+            Endereço: <input type="text" id="address">
+        </label><br>
+        <!-- Adicione os demais campos do aluno aqui -->
+
+        <!-- Dados do Pai -->
+        <h2>Dados do Pai</h2>
+        <label>
+            Nome*: <input type="text" id="fatherName" required>
+        </label><br>
+        <!-- Adicione os demais campos do pai aqui -->
+
+        <!-- Dados do Mãe -->
+        <h2>Dados da Mãe</h2>
+        <label>
+            Nome*: <input type="text" id="motherName" required>
+        </label><br>
+        <!-- Adicione os demais campos da mãe aqui -->
+
+        <!-- Dados do curso -->
+        <h2>Dados do Curso</h2>
+        <label>
+            Nome do Curso*: <input type="text" id="courseName" required>
+        </label><br>
+        <label>
+            Data de Ingresso*: <input type="date" id="enrollmentDate" required>
+        </label><br>
+        <label>
+            Valor*: <input type="number" id="courseValue" required>
+        </label><br>
+        <label>
+            Forma de Pagamento (qtde de parcelas)*: <input type="number" id="installments" required>
+        </label><br>
+
+        <button type="submit">Inscrever-se</button>
+    </form>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseCode = urlParams.get('courseCode');
+
+        document.getElementById('registration-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = {
+                // Dados do aluno
+                studentName: document.getElementById('studentName').value,
+                address: document.getElementById('address').value,
+                // Adicione os demais campos do aluno aqui
+
+                // Dados do Pai
+                fatherName: document.getElementById('fatherName').value,
+                // Adicione os demais campos do pai aqui
+
+                // Dados da Mãe
+                motherName: document.getElementById('motherName').value,
+                // Adicione os demais campos da mãe aqui
+
+                // Dados do curso
+                courseName: document.getElementById('courseName').value,
+                enrollmentDate: document.getElementById('enrollmentDate').value,
+                courseValue: document.getElementById('courseValue').value,
+                installments: document.getElementById('installments').value
+            };
+
+            fetch('https://607c3e68e7f4f50017184558.mockapi.io/registrations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Inscrição realizada com sucesso!');
+                window.location.href = 'index.html';
+            })
+            .catch((error) => {
+                console.error('Erro ao fazer inscrição:', error);
+                alert('Erro ao fazer inscrição. Por favor, tente novamente.');
+            });
+        });
+    </script>
+</body>
+</html>

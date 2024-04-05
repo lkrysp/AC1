@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos e Inscrição</title>
+</head>
+<body>
+    <h1>Cursos Disponíveis</h1>
+    <ul id="courses-list"></ul>
+
+    <script>
+        fetch('https://607c3e68e7f4f50017184558.mockapi.io/courses')
+        .then(response => response.json())
+        .then(data => {
+            const coursesList = document.getElementById('courses-list');
+            data.forEach(course => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <h2>${course.name}</h2>
+                    <p>${course.description}</p>
+                    <p>Turno/Horário: ${course.schedule}</p>
+                    <p>Professores: ${course.teachers.join(', ')}</p>
+                    <p>Valor: ${course.value}</p>
+                    <a href="registration.html?courseCode=${course.id}">Inscreva-se</a>
+                `;
+                coursesList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Erro ao carregar cursos:', error));
+    </script>
+</body>
+</html>
